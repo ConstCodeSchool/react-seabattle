@@ -1,11 +1,12 @@
+import { forwardRef } from "react";
 import { useSeaBattle } from "../hooks";
 import styles from "./styles.module.css";
 
-const BattleFieldTable = () => {
+const BattleFieldTable = forwardRef((props, ref) => {
 	const { cellSize } = useSeaBattle();
 
 	return (
-		<table className={styles["battlefield-table"]}>
+		<table ref={ref} className={styles["battlefield-table"]}>
 			<tbody>
 				{matrix.map((row, y) => (
 					<tr key={y}>
@@ -54,7 +55,7 @@ const BattleFieldTable = () => {
 			</tbody>
 		</table>
 	);
-};
+});
 
 export default BattleFieldTable;
 
