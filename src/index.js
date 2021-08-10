@@ -11,6 +11,8 @@ import { DndProvider } from "react-dnd";
 import { Provider } from "react-redux";
 import store from "./store";
 
+import "./socket";
+
 ReactDOM.render(
 	<React.StrictMode>
 		<Provider store={store}>

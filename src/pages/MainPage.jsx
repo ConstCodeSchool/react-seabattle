@@ -1,10 +1,15 @@
-import { useSelector } from "react-redux";
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BattleField, BattleFieldTable, Ship } from "../components";
+import { reset } from "../store/party";
 import styles from "./styles.module.css";
 
 const MainPage = () => {
 	const ships = useSelector((state) => state.main.ships);
+	const dispatch = useDispatch();
+
+	useEffect(() => dispatch(reset(ships)), [dispatch, ships]);
 
 	return (
 		<div className={styles.container}>
@@ -26,8 +31,12 @@ const MainPage = () => {
 							Играть с ботом
 						</button>
 					</Link>
-					<button className={styles.action}>Играть онлайн</button>
-					<button className={styles.action}>Бросить вызов</button>
+					<Link to="/party">
+						<button className={styles.action}>Играть онлайн</button>
+					</Link>
+					<Link to="/challenge">
+						<button className={styles.action}>Бросить вызов</button>
+					</Link>
 				</div>
 
 				<BattleField>
