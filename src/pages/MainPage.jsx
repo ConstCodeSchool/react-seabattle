@@ -1,16 +1,25 @@
+import { useEffect } from "react";
+import { useDispatch, useSelector } from "react-redux";
 import { Link } from "react-router-dom";
 import { BattleField, BattleFieldTable, Ship } from "../components";
+import { reset } from "../store/party";
 import styles from "./styles.module.css";
 
 const MainPage = () => {
+	const ships = useSelector((state) => state.main.ships);
+	const dispatch = useDispatch();
+
+	useEffect(() => dispatch(reset(ships)), [dispatch, ships]);
+
 	return (
 		<div className={styles.container}>
 			<div className={styles["main-content"]}>
 				<BattleField>
 					<BattleFieldTable />
 
-					<Ship x={0} y={0} length={4} direction="row" />
-					<Ship x={2} y={2} length={2} direction="column" />
+					{ships.map((ship) => (
+						<Ship key={ship.id} {...ship} />
+					))}
 				</BattleField>
 
 				<div className={styles["main-actions"]}>
@@ -22,8 +31,12 @@ const MainPage = () => {
 							Играть с ботом
 						</button>
 					</Link>
-					<button className={styles.action}>Играть онлайн</button>
-					<button className={styles.action}>Бросить вызов</button>
+					<Link to="/party">
+						<button className={styles.action}>Играть онлайн</button>
+					</Link>
+					<Link to="/challenge">
+						<button className={styles.action}>Бросить вызов</button>
+					</Link>
 				</div>
 
 				<BattleField>

@@ -1,11 +1,15 @@
+import { forwardRef } from "react";
+import PropTypes from "prop-types";
 import { useSeaBattle } from "../hooks";
 import styles from "./styles.module.css";
+import classNames from "classnames";
 
-const BattleFieldTable = () => {
+const BattleFieldTable = forwardRef((props, ref) => {
+	const { hovered, onClick } = props;
 	const { cellSize } = useSeaBattle();
 
 	return (
-		<table className={styles["battlefield-table"]}>
+		<table ref={ref} className={styles["battlefield-table"]}>
 			<tbody>
 				{matrix.map((row, y) => (
 					<tr key={y}>
@@ -38,11 +42,16 @@ const BattleFieldTable = () => {
 							return (
 								<td
 									key={x}
-									className={styles["battlefield-item"]}
+									className={classNames({
+										[styles["battlefield-item"]]: true,
+										[styles["battlefield-item__hovered"]]:
+											hovered,
+									})}
 									style={{
 										width: `${cellSize}px`,
 										height: `${cellSize}px`,
 									}}
+									onClick={() => onClick(x, y)}
 								>
 									{markerX}
 									{markerY}
@@ -54,9 +63,19 @@ const BattleFieldTable = () => {
 			</tbody>
 		</table>
 	);
-};
+});
 
 export default BattleFieldTable;
+
+BattleFieldTable.propTypes = {
+	hovered: PropTypes.bool.isRequired,
+	onClick: PropTypes.func.isRequired,
+};
+
+BattleFieldTable.defaultProps = {
+	hovered: false,
+	onClick() {},
+};
 
 const matrix = [];
 
